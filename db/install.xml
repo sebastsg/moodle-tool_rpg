@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="admin/tool/rpg/db" VERSION="20240223" COMMENT="RPG"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="tool_rpg" COMMENT="RPG">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="tool_rpg_item" COMMENT="Item">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Item name"/>
+        <FIELD NAME="rarity" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Item rarity"/>
+        <FIELD NAME="type" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Item type"/>
+        <FIELD NAME="stackable" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether this item is stackable or not"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="tool_rpg_item_instance" COMMENT="Instance of an item">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="itemid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Which item this is an instance of"/>
+        <FIELD NAME="characterid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The character that owns this item"/>
+        <FIELD NAME="stack" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Stackable items can have a stack, so this is the number of items in this instance"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="When this item was obtained by the user"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_item_instance_item" TYPE="foreign" FIELDS="itemid" REFTABLE="tool_rpg_item" REFFIELDS="id"/>
+        <KEY NAME="fk_item_character" TYPE="foreign" FIELDS="characterid" REFTABLE="tool_rpg_character" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="tool_rpg_character" COMMENT="The character for a user">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user who this character belongs to"/>
+        <FIELD NAME="xp" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="How much experience this character has gained"/>
+        <FIELD NAME="hp" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Hitpoints"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="When this character was created"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_character_user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="tool_rpg_monster" COMMENT="Woah! It's a monster!">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Monster name"/>
+        <FIELD NAME="hp" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Hitpoints"/>
+        <FIELD NAME="level" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="How strong the monster is"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="tool_rpg_battle" COMMENT="Scary">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="characterid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Character in the battle"/>
+        <FIELD NAME="monsterid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Monster in the battle"/>
+        <FIELD NAME="monsterhp" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Remaining hitpoints for monster"/>
+        <FIELD NAME="state" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The current state of the battle"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="When the battle started"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_battle_character" TYPE="foreign" FIELDS="characterid" REFTABLE="tool_rpg_character" REFFIELDS="id"/>
+        <KEY NAME="fk_battle_monster" TYPE="foreign" FIELDS="monsterid" REFTABLE="tool_rpg_monster" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>

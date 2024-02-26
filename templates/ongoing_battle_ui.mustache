@@ -1,0 +1,58 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+  @template tool_rpg/ongoing_battle_ui
+
+  Example context (json):
+  {
+      "battleid": 1,
+      "monsterimage": "https://moodle.local/monster.png",
+      "monstername": "Monster name",
+      "attacktext": "Attack!",
+      "declinetext": "Retreat",
+      "monsterlevel": 20,
+      "monstercurrenthp": 50,
+      "monstermaxhp": 100
+  }
+}}
+<div class="tool_rpg-ongoing-battle">
+    <h3 class="text-danger">Ongoing battle with {{monstername}}!</h3>
+    <div class="tool_rpg-monster-battle-wrapper">
+        <div>
+            <img src="{{{monsterimage}}}" alt="{{monstername}}" style="max-width: 200px;">
+        </div>
+        <div>
+            <div class="tool_rpg-monster-status">
+                <span class="tool_rpg-level">Lv. {{monsterlevel}}</span>
+                <div style="position: relative;">
+                    <progress class="tool_rpg-hp" value="{{monstercurrenthp}}" max="{{monstermaxhp}}"></progress>
+                    <span style="position: absolute; left: 28px; top: 14px; font-size: 1.2rem; color: white; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);">
+                        <i class="text-secondary">HP</i> <b>{{monstercurrenthp}}/{{monstermaxhp}}</b>
+                    </span>
+                </div>
+            </div>
+            <div>
+                <button class="tool_rpg-attack-monster-button btn btn-primary btn-danger" data-battleid="{{battleid}}">
+                    <i class="fa fa-dungeon"></i> Attack!
+                </button>
+                <button class="tool_rpg-decline-battle-button btn btn btn-dark" data-battleid="{{battleid}}">
+                    <i class="fa fa-shield-halved"></i> Retreat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

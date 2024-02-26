@@ -1,0 +1,78 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+  @template tool_rpg/monster_list
+
+  Example context (json):
+  {
+      "canedit": true,
+      "newmonsterlink": "https://moodle.local/admin/tool/rpg/editmonster.php",
+      "monsters": [
+            {
+                "id": 1,
+                "name": "Goblin",
+                "hp": 31,
+                "level": 4,
+                "iconurl": "https://moodle.local/monster.png",
+                "editlink": "https://moodle.local/admin/tool/rpg/editmonster.php?monsterid=1",
+                "deletelink": "https://moodle.local/admin/tool/rpg/editmonster.php?monsterid=1&action=delete"
+            }
+      ]
+  }
+}}
+<h3>Monsters</h3>
+<table class="tool_rpg-monster-list generaltable table-sm {{#canedit}}tool_rpg-editing{{/canedit}}">
+    <thead>
+        <tr>
+            <th>{{#str}} icon, tool_rpg {{/str}}</th>
+            <th>{{#str}} name, tool_rpg {{/str}}</th>
+            <th>{{#str}} hitpoints, tool_rpg {{/str}}</th>
+            <th>{{#str}} level, tool_rpg {{/str}}</th>
+            {{#canedit}}
+                <th colspan="2">&nbsp;</th>
+            {{/canedit}}
+        </tr>
+    </thead>
+    <tbody>
+        {{#monsters}}
+         <tr>
+             <td><img src="{{{iconurl}}}" alt="{{name}}" width="32"></td>
+             <td>{{name}}</td>
+             <td>{{hp}} HP</td>
+             <td>Lv. {{level}}</td>
+             {{#canedit}}
+                 <td>
+                     <a href="{{editlink}}" title="{{#str}} editmonster, tool_rpg {{/str}}" aria-label="{{#str}} editmonster, tool_rpg {{/str}}">
+                         <i class="icon fa fa-pencil fa-fw" role="img"></i>
+                     </a>
+                 </td>
+                 <td>
+                     <a href="{{{deletelink}}}" class="text-danger" title="{{#str}} deletemonster, tool_rpg {{/str}}" aria-label="{{#str}} deletemonster, tool_rpg {{/str}}">
+                         <i class="icon fa fa-trash fa-fw" role="img"></i>
+                     </a>
+                 </td>
+             {{/canedit}}
+         </tr>
+        {{/monsters}}
+    </tbody>
+</table>
+
+{{#canedit}}
+<div>
+    <a href="{{newmonsterlink}}" class="btn btn-primary">{{#str}} createnewmonster, tool_rpg {{/str}}</a>
+</div>
+{{/canedit}}

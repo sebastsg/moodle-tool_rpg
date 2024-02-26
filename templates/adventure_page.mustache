@@ -1,0 +1,107 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+  @template tool_rpg/adventure_page
+
+  Example context (json):
+  {
+      "xp": 1000000,
+      "level": 100,
+      "remainingxp": 10,
+      "targetxp": 1000000,
+      "characterhp": 50,
+      "charactermaxhp": 100,
+      "startbattle": {
+          "battleid": 1,
+          "monsterimage": "https://moodle.local/monster.png",
+          "monstername": "Monster name",
+          "attacktext": "Attack!",
+          "declinetext": "No thanks"
+      },
+      "ongoingbattle": {
+          "battleid": 1,
+          "monsterimage": "https://moodle.local/monster.png",
+          "monstername": "Monster name",
+          "attacktext": "Attack!",
+          "declinetext": "Retreat",
+          "monsterlevel": 20,
+          "monstercurrenthp": 50,
+          "monstermaxhp": 100
+      },
+      "lookfortroubletext": "Look for trouble...",
+      "inventory": {
+          "items": [
+              {
+                  "iteminstanceid": 1,
+                  "itemid": 1,
+                  "itemname": "Potion",
+                  "itemrarity": "common",
+                  "itemtype": "potion",
+                  "itemicon": "https://moodle.local/item.png",
+                  "itemtooltip": "Heals some HP",
+                  "stack": 1
+              },
+              {
+                  "placeholder": true,
+                  "itemicon": "https://moodle.local/item.png",
+                  "itemtooltip": "This is a placeholder"
+              }
+          ]
+      }
+  }
+}}
+<div class="tool_rpg-student-overview">
+    <div class="tool_rpg-character-status">
+        <span class="tool_rpg-level">Lv. {{level}}</span>
+        <div style="position: relative;">
+            <progress class="tool_rpg-hp" value="{{characterhp}}" max="{{charactermaxhp}}"></progress>
+            <span style="position: absolute; left: 28px; top: 14px; font-size: 1.2rem; color: white; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);">
+                <i class="text-secondary">HP</i> <b>{{characterhp}}/{{charactermaxhp}}</b>
+            </span>
+        </div>
+    </div>
+    <div style="position: relative;">
+        <progress class="tool_rpg-character-xp" value="{{xp}}" max="{{targetxp}}"></progress>
+        <span style="position: absolute; left: 40px; top: 6px; font-size: 0.75rem; color: white;">
+            <i style="font-weight: bold; color: #855b28; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">XP</i> <b style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);">{{experience}}/{{targetxp}}</b>
+        </span>
+    </div>
+    <hr>
+    <p>{{#str}} onlyxpuntilnextlevel, tool_rpg, {{remainingxp}} {{/str}}</p>
+    <p>{{#str}} progressbyparticipating, tool_rpg {{/str}}</p>
+    <hr>
+    {{#ongoingbattle}}
+        {{>tool_rpg/ongoing_battle_ui}}
+        <hr>
+    {{/ongoingbattle}}
+    {{#startbattle}}
+        {{>tool_rpg/start_battle_ui}}
+        <hr>
+    {{/startbattle}}
+    {{^ongoingbattle}}
+        {{^startbattle}}
+            <button class="tool_rpg-reload-button btn btn-primary btn-danger" data-battleid="{{battleid}}">
+                <i class="fa fa-skull-crossbones"></i> {{lookfortroubletext}}
+            </button>
+            <hr>
+        {{/startbattle}}
+    {{/ongoingbattle}}
+    {{#inventory}}
+        {{>tool_rpg/inventory_ui}}
+    {{/inventory}}
+</div>
+{{#js}} require(['tool_rpg/battle'], battle => battle.init()); {{/js}}

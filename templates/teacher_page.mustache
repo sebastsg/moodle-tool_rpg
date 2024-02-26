@@ -1,0 +1,64 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+  @template tool_rpg/teacher_page
+
+  Example context (json):
+  {
+      "canedit": true,
+      "newitemlink": "https://moodle.local/admin/tool/rpg/edititem.php",
+      "newmonsterlink": "https://moodle.local/admin/tool/rpg/editmonster.php",
+      "items": [
+            {
+                "id": 1,
+                "name": "Potion",
+                "rarity": "common",
+                "type": "potion",
+                "iconurl": "https://moodle.local/item.png",
+                "editlink": "https://moodle.local/admin/tool/rpg/edititem.php?itemid=1",
+                "deletelink": "https://moodle.local/admin/tool/rpg/edititem.php?itemid=1&action=delete"
+            }
+      ],
+      "monsters": [
+            {
+                "id": 1,
+                "name": "Goblin",
+                "hp": 31,
+                "level": 4,
+                "iconurl": "https://moodle.local/monster.png",
+                "editlink": "https://moodle.local/admin/tool/rpg/editmonster.php?monsterid=1",
+                "deletelink": "https://moodle.local/admin/tool/rpg/editmonster.php?monsterid=1&action=delete"
+            }
+      ],
+      "characters": [
+            {
+                "displayname": "Player",
+                "level": 10
+            }
+      ]
+  }
+}}
+<div class="tool_rpg-teacher-overview">
+    <div>
+        {{>tool_rpg/item_list}}
+        <hr>
+        {{>tool_rpg/monster_list}}
+    </div>
+    <div>
+        {{>tool_rpg/character_list}}
+    </div>
+</div>
