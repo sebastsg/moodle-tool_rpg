@@ -90,7 +90,7 @@ class edit_item_form extends moodleform {
         if (empty($data['name'])) {
             $errors['name'] = get_string('invalidname', 'tool_rpg');
         }
-        if (!isset($data['rarity']) || !in_array($data['rarity'], array_keys($this->get_type_options()))) {
+        if (!isset($data['rarity']) || !in_array($data['rarity'], array_keys($this->get_rarity_options()))) {
             $errors['rarity'] = get_string('invaliditemrarity', 'tool_rpg');
         }
         if (!isset($data['type']) || !in_array($data['type'], array_keys($this->get_type_options()))) {
