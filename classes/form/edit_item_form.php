@@ -48,24 +48,11 @@ class edit_item_form extends moodleform {
         $form->addElement('text', 'name', 'Name');
         $form->setType('name', PARAM_TEXT);
 
-        $form->addElement('select', 'rarity', 'Rarity', [
-            'verycommon' => get_string('verycommon', 'tool_rpg'),
-            'common' => get_string('common', 'tool_rpg'),
-            'uncommon' => get_string('uncommon', 'tool_rpg'),
-            'rare' => get_string('rare', 'tool_rpg'),
-            'ultrarare' => get_string('ultrarare', 'tool_rpg'),
-            'legendary' => get_string('legendary', 'tool_rpg'),
-        ]);
+        $form->addElement('select', 'rarity', 'Rarity', $this->get_rarity_options());
         $form->setType('rarity', PARAM_TEXT);
         $form->setDefault('rarity', 'common');
 
-        $form->addElement('select', 'type', 'Type', [
-            'food' => get_string('food', 'tool_rpg'),
-            'potion' => get_string('potion', 'tool_rpg'),
-            'weapon' => get_string('weapon', 'tool_rpg'),
-            'other' => get_string('other', 'tool_rpg'),
-            'tool' => get_string('tool', 'tool_rpg'),
-        ]);
+        $form->addElement('select', 'type', 'Type', $this->get_type_options());
         $form->setType('type', PARAM_TEXT);
 
         $form->addElement('checkbox', 'stackable', 'Stackable');
@@ -92,15 +79,55 @@ class edit_item_form extends moodleform {
     }
 
     /**
-     * We don't do any validation yet. This is a problem!
+     * Validate the fields.
      *
-     * @todo Add validation
      * @param array $data
      * @param array $files
-     * @return array
+     * @return string[]
      */
     public function validation($data, $files): array {
-        return parent::validation($data, $files);
+        $errors = [];
+        if (empty($data['name'])) {
+            $errors['name'] = get_string('invalidname', 'tool_rpg');
+        }
+        if (!isset($data['rarity']) || !in_array($data['rarity'], array_keys($this->get_type_options()))) {
+            $errors['rarity'] = get_string('invaliditemrarity', 'tool_rpg');
+        }
+        if (!isset($data['type']) || !in_array($data['type'], array_keys($this->get_type_options()))) {
+            $errors['type'] = get_string('invaliditemtype', 'tool_rpg');
+        }
+        return $errors;
+    }
+
+    /**
+     * Get the item types available.
+     *
+     * @return string[]
+     */
+    private function get_type_options(): array {
+        return [
+            'food' => get_string('food', 'tool_rpg'),
+            'potion' => get_string('potion', 'tool_rpg'),
+            'weapon' => get_string('weapon', 'tool_rpg'),
+            'other' => get_string('other', 'tool_rpg'),
+            'tool' => get_string('tool', 'tool_rpg'),
+        ];
+    }
+
+    /**
+     * Get the item rarities available.
+     *
+     * @return string[]
+     */
+    private function get_rarity_options(): array {
+        return [
+            'verycommon' => get_string('verycommon', 'tool_rpg'),
+            'common' => get_string('common', 'tool_rpg'),
+            'uncommon' => get_string('uncommon', 'tool_rpg'),
+            'rare' => get_string('rare', 'tool_rpg'),
+            'ultrarare' => get_string('ultrarare', 'tool_rpg'),
+            'legendary' => get_string('legendary', 'tool_rpg'),
+        ];
     }
 
 }

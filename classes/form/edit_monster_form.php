@@ -73,15 +73,24 @@ class edit_monster_form extends moodleform {
     }
 
     /**
-     * We don't do any validation yet. This is a problem!
+     * Validate the fields.
      *
-     * @todo Add validation
      * @param array $data
      * @param array $files
-     * @return array
+     * @return string[]
      */
     public function validation($data, $files): array {
-        return parent::validation($data, $files);
+        $errors = [];
+        if (empty($data['name'])) {
+            $errors['name'] = get_string('invalidname', 'tool_rpg');
+        }
+        if (!isset($data['level']) || $data['level'] < 1) {
+            $errors['level'] = get_string('invalidlevel', 'tool_rpg');
+        }
+        if (!isset($data['hp']) || $data['hp'] < 1) {
+            $errors['hp'] = get_string('invalidhp', 'tool_rpg');
+        }
+        return $errors;
     }
 
 }

@@ -39,20 +39,22 @@ class tool_rpg_generator extends component_generator_base {
             $data['timecreated'] = time();
         }
         $id = $DB->insert_record('tool_rpg_character', $data);
+        return $DB->get_record('tool_rpg_character', ['id' => $id], '*', MUST_EXIST);
     }
 
     /**
      * Create a new item.
      *
      * @param array $data
-     * @return void
+     * @return stdClass
      */
-    public function create_item(array $data): void {
+    public function create_item(array $data): stdClass {
         global $DB;
         if (empty($data['timecreated'])) {
             $data['timecreated'] = time();
         }
-        $DB->insert_record('tool_rpg_item', $data);
+        $id = $DB->insert_record('tool_rpg_item', $data);
+        return $DB->get_record('tool_rpg_item', ['id' => $id], '*', MUST_EXIST);
     }
 
 }

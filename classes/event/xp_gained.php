@@ -45,7 +45,6 @@ class xp_gained extends \core\event\base {
      * Initialize the default data.
      */
     protected function init(): void {
-        $this->data['context'] = context_system::instance();
         $this->data['objecttable'] = 'tool_rpg_character';
         $this->data['crud'] = 'u';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;

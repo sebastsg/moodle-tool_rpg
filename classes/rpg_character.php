@@ -25,6 +25,7 @@
 namespace tool_rpg;
 
 use coding_exception;
+use context_system;
 use stdClass;
 use tool_rpg\event\xp_gained;
 use tool_rpg\local\xp_table;
@@ -188,6 +189,7 @@ class rpg_character {
         }
         $this->save();
         $event = xp_gained::create([
+            'context' => context_system::instance(),
             'objectid' => $this->id,
             'relateduserid' => $this->userid,
             'other' => [
